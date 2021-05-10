@@ -1,0 +1,22 @@
+<div class="row">
+    <div class="col s6 m6 offset-s3 offset-m3">
+        <div class="card z-depth-3">
+            <div class="card-content blue-grey-text text-darken-1">
+                <span class="card-title">
+                    <strong>Historic of selected Heroes ({{messageService.messages.length}} selected)</strong>
+                </span>
+                <ul>
+                    <li *ngFor='let message of messageService.messages'>
+                        <h6>{{message}}</h6>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-action valign-wrapper">
+                <i class="material-icons teal-text">delete</i>
+                <a (click)="messageService.clear()">
+                    <strong class="teal-text"> Clear history</strong>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

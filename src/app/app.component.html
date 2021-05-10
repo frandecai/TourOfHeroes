@@ -1,0 +1,22 @@
+<nav>
+    <div class="nav-wrapper blue-grey darken-1">
+        <div style="text-align:center">
+            <a href href="/" class="brand-logo center">
+                <img class="responsive-img" src="./assets/imgs/logo.png" width="150px">
+            </a>
+        </div>
+        <ul class="left hide-on-med-and-down">
+            <li [ngClass]="dashboardActive ? 'active' : ''">
+                <a routerLink="/dashboard" (click)="clickDashboard()">Dashboard</a>
+            </li>
+            <li [ngClass]="heroesActive ? 'active' : ''">
+                <a routerLink="/heroes" (click)="clickHeroes()">Heroes</a>
+            </li>
+            <li [ngClass]="logActive ? 'active' : ''">
+                <a routerLink="/messages" (click)="clickLog()">Log ({{messageService.messages.length}})
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<router-outlet></router-outlet>

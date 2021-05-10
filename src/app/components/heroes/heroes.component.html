@@ -1,0 +1,18 @@
+<div class="row">
+    <div class="col s6 m6 offset-s3 offset-m3">
+        <div class="card z-depth-3">
+            <div class="card-content blue-grey-text text-darken-1">
+                <span class="card-title">
+                    <strong>LISTS OF HEROES</strong>
+                </span>
+                <div class="collection z-depth-2">
+                    <a class="collection-item blue-grey-text text-darken-1"
+                       *ngFor="let hero of heroes"
+                       routerLink="/detail/{{hero.id}}">
+                        {{hero.name}}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
