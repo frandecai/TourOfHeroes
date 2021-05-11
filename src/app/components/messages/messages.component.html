@@ -5,11 +5,22 @@
                 <span class="card-title">
                     <strong>Historic of selected Heroes ({{messageService.messages.length}} selected)</strong>
                 </span>
-                <ul>
-                    <li *ngFor='let message of messageService.messages'>
-                        <h6>{{message}}</h6>
-                    </li>
-                </ul>
+                <table *ngIf="messageService.messages.length > 0">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Hero name</th>
+                            <th>Added date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let message of messageService.messages">
+                            <td>{{message['id']}}</td>
+                            <td>{{message['name']}}</td>
+                            <td>{{message['date']}}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
             <div class="card-action valign-wrapper">
                 <i class="material-icons teal-text">delete</i>
