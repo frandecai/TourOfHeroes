@@ -12,6 +12,7 @@ import { HeroService } from '../../services/hero/hero.service';
 })
 export class HeroDetailComponent implements OnInit {
     hero: HeroInterface;
+    editHero: boolean = false;
 
     constructor(
         private route: ActivatedRoute,
@@ -26,6 +27,10 @@ export class HeroDetailComponent implements OnInit {
     getHero(): void {
         const id = Number(this.route.snapshot.paramMap.get('id'));
         this.heroService.getHero(id).subscribe(hero => this.hero = hero);
+    }
+
+    edit(): void {
+        this.editHero = !this.editHero;
     }
 
     goBack(): void {

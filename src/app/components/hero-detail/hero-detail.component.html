@@ -10,13 +10,20 @@
                         <h6>Id: {{hero.id}}</h6>
                     </li>
                     <li>
-                        <h6>Name: {{hero.name}}</h6>
+                        <h6 [ngClass]="editHero ? 'hide' : ''">Name: {{hero.name}}</h6>
+                        <input [ngClass]="editHero ? '' : 'hide'" [(ngModel)]="hero.name" placeholder="Hero name"/>
                     </li>
                 </ul>
             </div>
-            <div class="card-action">
+            <div class="card-action valign-wrapper">
                 <a class="blue-grey-text text-darken-1 valign-wrapper" (click)="goBack()">
                     <i class="material-icons">arrow_back</i> Go back
+                </a>
+                <a class="blue-grey-text text-darken-1 valign-wrapper" [ngClass]="editHero ? 'hide' : ''" (click)="edit()">
+                    <i class="material-icons">edit</i> Edit
+                </a>
+                <a class="blue-grey-text text-darken-1 valign-wrapper" [ngClass]="editHero ? '' : 'hide'" (click)="edit()">
+                    <i class="material-icons">done</i> Confirm
                 </a>
             </div>
         </div>
