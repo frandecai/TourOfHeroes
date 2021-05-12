@@ -1,10 +1,8 @@
 <nav>
     <div class="nav-wrapper blue-grey darken-1">
-        <div style="text-align:center">
-            <a href href="/" class="brand-logo center">
-                <img class="responsive-img" src="./assets/imgs/logo.png" width="150px">
-            </a>
-        </div>
+        <a href="#" class="brand-logo center">
+            {{title}}
+        </a>
         <ul class="left hide-on-med-and-down">
             <li [ngClass]="dashboardActive ? 'active' : ''">
                 <a routerLink="/dashboard" (click)="clickDashboard()">Dashboard</a>
