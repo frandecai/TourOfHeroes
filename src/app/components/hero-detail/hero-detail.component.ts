@@ -1,5 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router} from '@angular/router';
 import { Location } from '@angular/common';
 
 import { HeroInterface } from '../../interfaces/hero.interface';
@@ -16,8 +16,9 @@ export class HeroDetailComponent implements OnInit {
 
     constructor(
         private route: ActivatedRoute,
-        private heroService: HeroService,
-        private location: Location
+        private router:Router,
+        private location:Location,
+        public heroService: HeroService,
     ) { }
 
     ngOnInit() {
@@ -27,6 +28,12 @@ export class HeroDetailComponent implements OnInit {
     getHero(): void {
         const id = Number(this.route.snapshot.paramMap.get('id'));
         this.heroService.getHero(id).subscribe(hero => this.hero = hero);
+    }
+
+    deleteHero(): void {
+        const id = Number(this.route.snapshot.paramMap.get('id'));
+        this.heroService.deleteHero(id);
+        this.router.navigateByUrl('/heroes');
     }
 
     edit(): void {

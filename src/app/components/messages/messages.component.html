@@ -10,6 +10,7 @@
                         <tr>
                             <th>Id</th>
                             <th>Name</th>
+                            <th>Action</th>
                             <th>Selected Date</th>
                         </tr>
                     </thead>
@@ -17,6 +18,7 @@
                         <tr *ngFor="let message of messageService.messages">
                             <td>{{message['id']}}</td>
                             <td>{{message['name']}}</td>
+                            <td>{{message['action']}}</td>
                             <td>{{message['date']}}</td>
                         </tr>
                     </tbody>

@@ -7,7 +7,7 @@
                 </span>
                 <ul>
                     <li>
-                        <h6>Id: {{hero.id}}</h6>
+                        <h6>Id: {{hero?.id}}</h6>
                     </li>
                     <li>
                         <h6 [ngClass]="editHero ? 'hide' : ''">Name: {{hero.name}}</h6>
@@ -17,13 +17,16 @@
             </div>
             <div class="card-action valign-wrapper">
                 <a class="blue-grey-text text-darken-1 valign-wrapper" (click)="goBack()">
-                    <i class="material-icons">arrow_back</i> Go back
+                    <i class="material-icons">arrow_back</i>&nbsp;Go back
                 </a>
                 <a class="blue-grey-text text-darken-1 valign-wrapper" [ngClass]="editHero ? 'hide' : ''" (click)="edit()">
-                    <i class="material-icons">edit</i> Edit
+                    <i class="material-icons">edit</i>&nbsp;Edit
                 </a>
                 <a class="blue-grey-text text-darken-1 valign-wrapper" [ngClass]="editHero ? '' : 'hide'" (click)="edit()">
-                    <i class="material-icons">done</i> Confirm
+                    <i class="material-icons">done</i>&nbsp;Confirm
+                </a>
+                <a class="blue-grey-text text-darken-1 valign-wrapper" [ngClass]="editHero ? 'hide' : ''" (click)="deleteHero()">
+                    <i class="material-icons">delete</i>&nbsp;Delete
                 </a>
             </div>
         </div>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router} from '@angular/router';
 
 import { HeroInterface } from '../../interfaces/hero.interface';
 import { HeroService } from '../../services/hero/hero.service';
@@ -10,16 +11,27 @@ import { HeroService } from '../../services/hero/hero.service';
 })
 export class HeroesComponent implements OnInit {
     heroes: HeroInterface[] = [];
+    newHeroName;
+
+    constructor(
+        private heroService: HeroService
+    ) { }
+
+    ngOnInit() {
+        this.getHeroes();
+    }
 
     getHeroes(): void {
         this.heroService.getHeroes().subscribe(heroes => this.heroes = heroes);
     }
 
-    constructor(
-        private heroService: HeroService,
-    ) { }
+    addHero(): void {
+        this.heroService.addHero(this.newHeroName);
+        this.newHeroName = "";
+    }
 
-    ngOnInit() {
-        this.getHeroes();
+    reloadHeroes(): void {
+        console.log("Recarga de Héroes...")
+        this.ngOnInit();
     }
 }

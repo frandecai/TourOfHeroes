@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class MessageService {
     messages: string[][] = [];
 
-    add(id: number, name: string) {
+    add(id: number, name: string, action: string) {
         let message = [];
         let date: Date = new Date();
         var day = (date.getDay() < 10) ? ('0' + date.getDay()): date.getDay();
@@ -17,6 +17,7 @@ export class MessageService {
 
         message['id'] = id;
         message['name'] = name;
+        message['action'] = action;
         message['date'] = day + '/' + month + '/' + date.getFullYear() + ' ' + hours + ":" + minutes + ':' + seconds;
         this.messages.push(message);
     }

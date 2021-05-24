@@ -6,23 +6,45 @@ import { HeroInterface } from '../../interfaces/hero.interface';
 import { HEROES } from '../../mocks/heroes.mock';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class HeroService {
     constructor(private messageService: MessageService) { }
 
     getHeroes(): Observable<HeroInterface[]> {
         const heroes = of(HEROES);
-        //this.messageService.add('HeroService: fetched heroes');
+
         return heroes;
     }
 
     getHero(id: number): Observable<HeroInterface> {
-        // For now, assume that a hero with the specified `id` always exists.
-        // Error handling will be added in the next step of the tutorial.
-
         const hero = HEROES.find(h => h.id === id) as HeroInterface;
-        this.messageService.add(hero.id, hero.name);
+        this.messageService.add(hero.id, hero.name, 'Select');
         return of(hero);
+    }
+
+    deleteHero(id: number) {
+        let i = HEROES.findIndex(function(hero) {
+            return hero.id == id;
+        });
+        this.messageService.add(HEROES[i].id, HEROES[i].name, 'Delete');
+        HEROES.splice(i, 1);
+
+        return HEROES;
+    }
+
+    addHero(name: string) {
+        let maxId: number = 0;
+        let newHero: HeroInterface;
+        for (let i = 0; i < HEROES.length; i++) {
+            if (HEROES[i].id > maxId) {
+                maxId = HEROES[i].id;
+            }
+        }
+
+        newHero = {'id': ++maxId, 'name': name};
+        HEROES.push(newHero)
+
+        return HEROES;
     }
 }
