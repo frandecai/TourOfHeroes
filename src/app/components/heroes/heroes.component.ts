@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router} from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 import { HeroInterface } from '../../interfaces/hero.interface';
 import { HeroService } from '../../services/hero/hero.service';
@@ -11,10 +11,9 @@ import { HeroService } from '../../services/hero/hero.service';
 })
 export class HeroesComponent implements OnInit {
     heroes: HeroInterface[] = [];
-    newHeroName;
 
     constructor(
-        private heroService: HeroService
+        private heroService: HeroService,
     ) { }
 
     ngOnInit() {
@@ -25,13 +24,19 @@ export class HeroesComponent implements OnInit {
         this.heroService.getHeroes().subscribe(heroes => this.heroes = heroes);
     }
 
-    addHero(): void {
-        this.heroService.addHero(this.newHeroName);
-        this.newHeroName = "";
+    addHero(name: string): void {
+        name = name.trim();
+        if (!name) {
+            return;
+        }
+
+        this.heroService.addHero({ name } as HeroInterface)
+            .subscribe(hero => {this.heroes.push(hero);
+        });
     }
 
-    reloadHeroes(): void {
-        console.log("Recarga de Héroes...")
-        this.ngOnInit();
+    deleteHero(hero: HeroInterface): void {
+        this.heroes = this.heroes.filter(h => h !== hero);
+        this.heroService.deleteHero(hero).subscribe();
     }
 }

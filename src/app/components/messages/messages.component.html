@@ -8,18 +8,18 @@
                 <table *ngIf="messageService.messages.length > 0">
                     <thead>
                         <tr>
+                            <th>Action</th>
+                            <th>Date</th>
                             <th>Id</th>
                             <th>Name</th>
-                            <th>Action</th>
-                            <th>Selected Date</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let message of messageService.messages">
-                            <td>{{message['id']}}</td>
-                            <td>{{message['name']}}</td>
                             <td>{{message['action']}}</td>
                             <td>{{message['date']}}</td>
+                            <td>{{message['id']}}</td>
+                            <td>{{message['name']}}</td>
                         </tr>
                     </tbody>
                 </table>

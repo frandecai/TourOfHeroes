@@ -3,15 +3,17 @@
         <div class="card z-depth-3">
             <div class="card-content blue-grey-text text-darken-1">
                 <span class="card-title">
-                    <strong>DETAIL OF {{hero.name | uppercase}}</strong>
+                    <strong>DETAIL OF HERO</strong>
                 </span>
                 <ul>
                     <li>
-                        <h6>Id: {{hero?.id}}</h6>
+                        <h6>Id: {{ hero?.id }}</h6>
                     </li>
                     <li>
-                        <h6 [ngClass]="editHero ? 'hide' : ''">Name: {{hero.name}}</h6>
-                        <input [ngClass]="editHero ? '' : 'hide'" [(ngModel)]="hero.name" placeholder="Hero name"/>
+                        <!-- <h6 [ngClass]="editingHero ? 'hide' : ''">Name: {{ noModifiedHero?.name }}</h6> -->
+                        <input placeholder="Hero name"
+                            [ngModel]="hero?.name"
+                            (ngModelChange)="hero.name = $event" />
                     </li>
                 </ul>
             </div>
@@ -19,13 +21,10 @@
                 <a class="blue-grey-text text-darken-1 valign-wrapper" (click)="goBack()">
                     <i class="material-icons">arrow_back</i>&nbsp;Go back
                 </a>
-                <a class="blue-grey-text text-darken-1 valign-wrapper" [ngClass]="editHero ? 'hide' : ''" (click)="edit()">
-                    <i class="material-icons">edit</i>&nbsp;Edit
+                <a class="blue-grey-text text-darken-1 valign-wrapper" (click)="saveHero()">
+                    <i class="material-icons">done</i>&nbsp;Update
                 </a>
-                <a class="blue-grey-text text-darken-1 valign-wrapper" [ngClass]="editHero ? '' : 'hide'" (click)="edit()">
-                    <i class="material-icons">done</i>&nbsp;Confirm
-                </a>
-                <a class="blue-grey-text text-darken-1 valign-wrapper" [ngClass]="editHero ? 'hide' : ''" (click)="deleteHero()">
+                <a class="blue-grey-text text-darken-1 valign-wrapper" (click)="deleteHero(hero)">
                     <i class="material-icons">delete</i>&nbsp;Delete
                 </a>
             </div>

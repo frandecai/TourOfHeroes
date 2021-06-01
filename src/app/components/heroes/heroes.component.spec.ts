@@ -1,5 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
 
 import { HeroesComponent } from './heroes.component';
 
@@ -7,12 +8,9 @@ describe('HeroesComponent', () => {
     let component: HeroesComponent;
     let fixture: ComponentFixture<HeroesComponent>;
     let HEROES;
-
     let mockHeroService;
 
     beforeEach(async(() => {
-        mockHeroService = jasmine.createSpyObj(['getHeroes']);
-
         TestBed.configureTestingModule({
             declarations: [ HeroesComponent ],
             imports: [
@@ -22,9 +20,6 @@ describe('HeroesComponent', () => {
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(HeroesComponent);
-        fixture.detectChanges();
-
         HEROES = [
             { id: 11, name: 'Dr Nice' },
             { id: 12, name: 'Narco' },
@@ -34,20 +29,45 @@ describe('HeroesComponent', () => {
             { id: 16, name: 'RubberMan' },
         ];
 
+        mockHeroService = jasmine.createSpyObj([
+            'getHeroes',
+            'addHero',
+            'deleteHero'
+        ]);
+
+        component = new HeroesComponent(mockHeroService)
     });
 
-    it('Should be created', () => {
-        component = fixture.componentInstance;
-        expect(component).toBeTruthy();
+    // it('Should be created', () => {
+    //     fixture = TestBed.createComponent(HeroesComponent);
+
+    //     fixture.detectChanges();
+    //     component = fixture.componentInstance;
+
+    //     expect(component).toBeTruthy();
+    // });
+
+    it('should remove the indicated hero from the list', () => {
+        // fixture = TestBed.createComponent(HeroesComponent);
+        // fixture.detectChanges();
+        // component = fixture.componentInstance;
+        mockHeroService.deleteHero.and.returnValue(of(true));
+        component.heroes = HEROES;
+
+        component.deleteHero(HEROES[5]);
+
+        expect(component.heroes.length).toBe(5);
     });
 
-    describe('getHeroes', () => {
-        component = new HeroesComponent(mockHeroService);
+    it("should call 'deleteHero'", () => {
+        // fixture = TestBed.createComponent(HeroesComponent);
+        // fixture.detectChanges();
+        // component = fixture.componentInstance;
+        mockHeroService.deleteHero.and.returnValue(of(true));
+        component.heroes = HEROES;
 
-        it('should get all the heroes', () => {
-            component.heroes = HEROES;
+        component.deleteHero(HEROES[5]);
 
-            expect(component.heroes.length).toBe(6);
-        })
-    })
+        expect(mockHeroService.deleteHero).toHaveBeenCalled();
+    });
 });

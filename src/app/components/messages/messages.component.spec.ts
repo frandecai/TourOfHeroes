@@ -13,12 +13,14 @@ describe('MessagesComponent', () => {
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(MessagesComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
     });
 
     it('Should be created', () => {
+        fixture = TestBed.createComponent(MessagesComponent);
+        component = fixture.componentInstance;
+
+        fixture.detectChanges();
+
         expect(component).toBeTruthy();
     });
 });

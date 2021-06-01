@@ -12,14 +12,15 @@ import { HeroService } from '../../services/hero/hero.service';
 })
 export class HeroDetailComponent implements OnInit {
     hero: HeroInterface;
-    editHero: boolean = false;
+    heroes: HeroInterface[] = [];
 
     constructor(
         private route: ActivatedRoute,
         private router:Router,
         private location:Location,
-        public heroService: HeroService,
-    ) { }
+        public heroService: HeroService
+    ) {
+    }
 
     ngOnInit() {
         this.getHero();
@@ -27,17 +28,20 @@ export class HeroDetailComponent implements OnInit {
 
     getHero(): void {
         const id = Number(this.route.snapshot.paramMap.get('id'));
+
         this.heroService.getHero(id).subscribe(hero => this.hero = hero);
     }
 
-    deleteHero(): void {
-        const id = Number(this.route.snapshot.paramMap.get('id'));
-        this.heroService.deleteHero(id);
+    deleteHero(hero: HeroInterface): void {
+        this.heroes = this.heroes.filter(h => h !== hero);
+        this.heroService.deleteHero(hero).subscribe();
         this.router.navigateByUrl('/heroes');
     }
 
-    edit(): void {
-        this.editHero = !this.editHero;
+    saveHero(): void {
+        if (this.hero) {
+            this.heroService.updateHero(this.hero).subscribe(() => this.router.navigateByUrl('/heroes'));
+        }
     }
 
     goBack(): void {

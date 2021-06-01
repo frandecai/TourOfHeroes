@@ -1,50 +1,90 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { catchError, tap } from 'rxjs/operators';
 
 import { MessageService } from '../message/message.service';
 import { HeroInterface } from '../../interfaces/hero.interface';
-import { HEROES } from '../../mocks/heroes.mock';
 
 @Injectable({
     providedIn: 'root'
 })
 export class HeroService {
-    constructor(private messageService: MessageService) { }
+    private heroesUrl = 'api/heroes';  // URL to web api
+    httpOptions = {
+        headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    };
 
+    constructor(
+        private http: HttpClient,
+        private messageService: MessageService
+    ) { }
+
+    public log(id: number, name: string, action: string) {
+        this.messageService.add(id, name, action);
+    }
+
+    /** GET heroes from the server */
     getHeroes(): Observable<HeroInterface[]> {
-        const heroes = of(HEROES);
-
-        return heroes;
+        return this.http.get<HeroInterface[]>(this.heroesUrl).pipe(
+            tap(_ => this.log(null, null, 'Fetched all heroes')),
+            catchError(this.handleError<HeroInterface[]>('getHeroes', []))
+        );
     }
 
+    /** GET hero by id. Will 404 if id not found */
     getHero(id: number): Observable<HeroInterface> {
-        const hero = HEROES.find(h => h.id === id) as HeroInterface;
-        this.messageService.add(hero.id, hero.name, 'Select');
-        return of(hero);
+        const url = `${this.heroesUrl}/${id}`;
+
+        return this.http.get<HeroInterface>(url).pipe(
+            tap(_ => this.log(null, null, `Fetched hero id=${id}`)),
+            catchError(this.handleError<HeroInterface>(`getHero id=${id}`))
+        );
     }
 
-    deleteHero(id: number) {
-        let i = HEROES.findIndex(function(hero) {
-            return hero.id == id;
-        });
-        this.messageService.add(HEROES[i].id, HEROES[i].name, 'Delete');
-        HEROES.splice(i, 1);
-
-        return HEROES;
+    /** POST: add a new hero to the server */
+    addHero(hero: HeroInterface): Observable<HeroInterface> {
+        return this.http.post<HeroInterface>(this.heroesUrl, hero, this.httpOptions).pipe(
+            tap((newHero: HeroInterface) => this.log(null, null, `Added hero w/ id=${newHero.id}`)),
+            catchError(this.handleError<HeroInterface>('addHero'))
+        );
     }
 
-    addHero(name: string) {
-        let maxId: number = 0;
-        let newHero: HeroInterface;
-        for (let i = 0; i < HEROES.length; i++) {
-            if (HEROES[i].id > maxId) {
-                maxId = HEROES[i].id;
-            }
-        }
+    /** PUT: update the hero on the server */
+    updateHero(hero: HeroInterface): Observable<any> {
+        return this.http.put(this.heroesUrl, hero, this.httpOptions).pipe(
+            tap(_ => this.log(null, null, `Updated hero id=${hero.id}`)),
+            catchError(this.handleError<any>('updateHero'))
+        );
+    }
 
-        newHero = {'id': ++maxId, 'name': name};
-        HEROES.push(newHero)
+    /** DELETE: delete the hero from the server */
+    deleteHero(hero: HeroInterface): Observable<HeroInterface> {
+        const url = `${this.heroesUrl}/${hero.id}`;
+    
+        return this.http.delete<HeroInterface>(url, this.httpOptions).pipe(
+            tap(_ => this.log(null, null, `Deleted hero id=${hero.id}`)),
+            catchError(this.handleError<HeroInterface>('deleteHero'))
+        );
+    }
 
-        return HEROES;
+    /**
+     * Handle Http operation that failed.
+     * Let the app continue.
+     * @param operation - name of the operation that failed
+     * @param result - optional value to return as the observable result
+     */
+    public handleError<T>(operation = 'operation', result?: T) {
+        return (error: any): Observable<T> => {
+    
+            // TODO: send the error to remote logging infrastructure
+            console.error(error); // log to console instead
+        
+            // TODO: better job of transforming error for user consumption
+            this.log(null, null, `${operation} failed: ${error.message}`);
+        
+            // Let the app keep running by returning an empty result.
+            return of(result as T);
+        };
     }
 }

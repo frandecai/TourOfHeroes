@@ -5,26 +5,33 @@
                 <span class="card-title">
                     <strong class="valign-wrapper">
                         LISTS OF HEROES
-                        <a class="blue-grey-text text-darken-1 valign-wrapper" (click)="reloadHeroes()">
+                        <a class="blue-grey-text text-darken-1 valign-wrapper">
                         &nbsp;<i class="material-icons">sync</i>
                         </a>
                     </strong>
                 </span>
-                <div class="collection z-depth-2">
-                    <a class="collection-item blue-grey-text text-darken-1"
-                       *ngFor="let hero of heroes"
-                       routerLink="/detail/{{hero.id}}">
-                        {{hero.name}}
-                    </a>
-                </div>
+                <ul class="collection row z-depth-2">
+                    <li class="collection-item" *ngFor="let hero of heroes">
+                        <div>
+                            {{ hero.name }}
+                            <a class="secondary-content valign-wrapper">
+                                <i class="material-icons blue-grey-text text-darken-1" (click)="deleteHero(hero)">delete</i>
+                            </a>
+                            <a class="secondary-content valign-wrapper" routerLink="/detail/{{ hero.id }}">
+                                <i class="material-icons blue-grey-text text-darken-1">remove_red_eye</i>&nbsp;&nbsp;
+                            </a>
+                        </div>
+                    </li>
+                </ul>
             </div>
             <div class="card-action valign-wrapper">
                 <div class="row valign-wrapper">
                     <div class="input-field col s6">
-                        <input placeholder="Hero new name" class="validate" [(ngModel)]="newHeroName">
+                        <input placeholder="Hero new name" class="validate" #newHeroName>
                     </div>
                     <div class="input-field col s6">
-                        <a class="blue-grey-text text-darken-1 valign-wrapper" (click)="addHero()">
+                        <a class="blue-grey-text text-darken-1 valign-wrapper"
+                            (click)="addHero(newHeroName.value); newHeroName.value=''">
                             <i class="material-icons">add_circle</i>&nbsp;Add new hero
                         </a>
                     </div>
