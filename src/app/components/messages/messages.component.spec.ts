@@ -15,7 +15,7 @@ describe('MessagesComponent', () => {
     beforeEach(() => {
     });
 
-    it('Should be created', () => {
+    it('should be created', () => {
         fixture = TestBed.createComponent(MessagesComponent);
         component = fixture.componentInstance;
 

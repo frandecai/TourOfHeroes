@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 
 import { HeroInterface } from '../../interfaces/hero.interface';
 import { HeroService } from '../../services/hero/hero.service';

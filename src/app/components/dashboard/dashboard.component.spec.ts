@@ -34,15 +34,15 @@ describe('DashboardComponent', () => {
         fixture.detectChanges();
     });
 
-    it('Should be created', () => {
+    it('should be created', () => {
         expect(component).toBeTruthy();
     });
 
-    it('Should display "TOP HEROES" as headline', () => {
+    it("should display 'TOP HEROES' as headline", () => {
         expect(fixture.nativeElement.querySelector('strong').textContent).toEqual('TOP HEROES');
     });
 
-    it('Should call heroService', async(() => {
+    it('should call heroService', async(() => {
         expect(getHeroesSpy.calls.any()).toBe(true);
     }));
 });
